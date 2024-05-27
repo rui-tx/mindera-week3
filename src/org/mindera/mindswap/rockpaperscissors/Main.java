@@ -2,7 +2,7 @@ package org.mindera.mindswap.rockpaperscissors;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         // right now it's only for 2 players
         Player[] playerList = {
@@ -12,8 +12,7 @@ public class Main {
         Game game = new Game(playerList);
 
 
-       game.start();
+        game.start();
     }
-
 
 }

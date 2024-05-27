@@ -20,13 +20,10 @@ public class Game {
     // -1       -> loses
 
     // this table has all the possible combinations of rock paper scissors
-    private static final int WINS = 1;
-    private static final int DRAW = 0;
-    private static final int LOSE = -1;
-    private  final int[][] winConditionTable = {
-            {DRAW, WINS, LOSE},
-            {LOSE, DRAW, WINS},
-            {WINS, LOSE, DRAW}
+    private final int[][] winConditionTable = {
+            {WinConditions.DRAW.getState(), WinConditions.WINS.getState(), WinConditions.LOSE.getState()},
+            {WinConditions.LOSE.getState(), WinConditions.DRAW.getState(), WinConditions.WINS.getState()},
+            {WinConditions.WINS.getState(), WinConditions.LOSE.getState(), WinConditions.DRAW.getState()}
     };
 
     public int winner;
@@ -73,11 +70,11 @@ public class Game {
 
         switch (this.obtainTheResultOfTheBattle()) {
             case -1:
-                System.out.println(">>> Winner is " + this.playerList[1].getPlayerName() + ", with "+ this.playerList[1].currentPlayerHandName() +  "! <<<");
+                System.out.println(">>> Winner is " + this.playerList[1].getPlayerName() + ", with " + this.playerList[1].currentPlayerHandName() + "! <<<");
                 winner = 2;
                 break;
             case 1:
-                System.out.println(">>> Winner is " + this.playerList[0].getPlayerName() + ", with "+ this.playerList[0].currentPlayerHandName() +  "! <<<");
+                System.out.println(">>> Winner is " + this.playerList[0].getPlayerName() + ", with " + this.playerList[0].currentPlayerHandName() + "! <<<");
                 winner = 1;
                 break;
             default:
@@ -97,7 +94,7 @@ public class Game {
         return this.playerList[player].getCurrentPlayerHand();
     }
 
-    public void start(){
+    public void start() {
         for (int i = 1; i <= getNumberOfGames(); i++) {
 
             System.out.println(">>> Game number " + i + " <<<");
