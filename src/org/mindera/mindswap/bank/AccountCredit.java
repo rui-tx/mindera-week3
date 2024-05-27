@@ -7,11 +7,11 @@ public class AccountCredit extends AccountBase {
         int balance = 0;
 
         for (int i = 0; i < transactions.length; i++) {
-            if (transactions[i].getType() == Transaction.TransactionType.CREDIT_DEPOSIT) {
+            if (transactions[i].getType() == TransactionType.CREDIT_DEPOSIT) {
                 balance += transactions[i].getValue();
             }
 
-            if (transactions[i].getType() == Transaction.TransactionType.CREDIT_PAYMENT) {
+            if (transactions[i].getType() == TransactionType.CREDIT_PAYMENT) {
                 balance -= transactions[i].getValue();
             }
         }
@@ -19,10 +19,10 @@ public class AccountCredit extends AccountBase {
         return balance;
     }
 
-    public int newTransaction(int type, int value) {
+    public RV newTransaction(TransactionType type, int value) {
         Transaction newTransaction = new Transaction(type, value, "credit transaction");
-        int check = this.pushTransaction(newTransaction);
+        RV returnValue = this.pushTransaction(newTransaction);
 
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.GENERIC_ERROR;
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.GENERIC_ERROR;
     }
 }

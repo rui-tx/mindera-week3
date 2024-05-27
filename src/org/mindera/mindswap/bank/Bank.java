@@ -23,7 +23,7 @@ public class Bank {
     // WARNING! conflict with return values and balance! CHANGE THIS!
     public int getDebitBalance() {
         if (this.debitAccount == null) {
-            return ReturnValue.NO_DEBIT_CARD_FOUND;
+            return RV.NO_DEBIT_CARD_FOUND.getCode();
         }
 
         return this.debitAccount.getDebitBalance();
@@ -32,7 +32,7 @@ public class Bank {
     // WARNING! conflict with return values and balance! CHANGE THIS!
     public int getCreditBalance() {
         if (this.creditAccount == null) {
-            return ReturnValue.NO_CREDIT_CARD_FOUND;
+            return RV.NO_CREDIT_CARD_FOUND.getCode();
         }
 
         return this.creditAccount.getCreditBalance();
@@ -43,111 +43,111 @@ public class Bank {
 
     // functions
 
-    public int newDebitCard() {
+    public RV newDebitCard() {
         if (this.debitAccount != null) {
-            return ReturnValue.DEBIT_CARD_ALREADY_EXIST;
+            return RV.DEBIT_CARD_ALREADY_EXIST;
         }
 
-        int check = this.initDebitAccount();
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.GENERIC_ERROR;
+        RV returnValue = this.initDebitAccount();
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.GENERIC_ERROR;
     }
 
-    public int debitDeposit(int value) {
+    public RV debitDeposit(int value) {
         if (this.debitAccount == null) {
-            return ReturnValue.NO_DEBIT_CARD_FOUND;
+            return RV.NO_DEBIT_CARD_FOUND;
         }
 
-        int check = this.debitAccount.newTransaction(Transaction.TransactionType.DEBIT_DEPOSIT, value);
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.DEBIT_DEPOSIT_ERROR;
+        RV returnValue = this.debitAccount.newTransaction(TransactionType.DEBIT_DEPOSIT, value);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.DEBIT_DEPOSIT_ERROR;
     }
 
-    public int widthdraw(int value) {
+    public RV withdraw(int value) {
         if (this.debitAccount == null) {
-            return ReturnValue.NO_DEBIT_CARD_FOUND;
+            return RV.NO_DEBIT_CARD_FOUND;
         }
 
         if ((this.getDebitBalance() - value) < 0) {
-            return ReturnValue.NO_DEBIT_BALANCE;
+            return RV.NO_DEBIT_BALANCE;
         }
 
-        int check = this.debitAccount.newTransaction(Transaction.TransactionType.DEBIT_WITHDRAW, value);
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.DEBIT_WIDTHDRAW_ERROR;
+        RV returnValue = this.debitAccount.newTransaction(TransactionType.DEBIT_WITHDRAW, value);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.DEBIT_WITHDRAW_ERROR;
     }
 
-    public int debitPay(int value) {
+    public RV debitPay(int value) {
         if (this.debitAccount == null) {
-            return ReturnValue.NO_DEBIT_CARD_FOUND;
+            return RV.NO_DEBIT_CARD_FOUND;
         }
 
         if ((this.getDebitBalance() - value) < 0) {
-            return ReturnValue.NO_DEBIT_BALANCE;
+            return RV.NO_DEBIT_BALANCE;
         }
 
-        int check = this.debitAccount.newTransaction(Transaction.TransactionType.DEBIT_PAYMENT, value);
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.DEBIT_PAYMENT_ERROR;
+        RV returnValue = this.debitAccount.newTransaction(TransactionType.DEBIT_PAYMENT, value);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.DEBIT_PAYMENT_ERROR;
     }
 
-    private int initDebitAccount() {
+    private RV initDebitAccount() {
         this.debitAccount = new AccountDebit();
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 
-    public int printDebitTransactions() {
+    public RV printDebitTransactions() {
         if (this.debitAccount == null) {
-            return ReturnValue.NO_DEBIT_CARD_FOUND;
+            return RV.NO_DEBIT_CARD_FOUND;
         }
 
         this.debitAccount.printTransactions();
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 
-    public int newCreditCard() {
+    public RV newCreditCard() {
         if (this.creditAccount != null) {
-            return ReturnValue.CREDIT_CARD_ALREADY_EXIST;
+            return RV.CREDIT_CARD_ALREADY_EXIST;
         }
 
         this.initCreditAccount();
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 
-    public int creditDeposit(int value) {
+    public RV creditDeposit(int value) {
         if (this.creditAccount == null) {
-            return ReturnValue.NO_CREDIT_CARD_FOUND;
+            return RV.NO_CREDIT_CARD_FOUND;
         }
 
-        int check = this.creditAccount.newTransaction(Transaction.TransactionType.CREDIT_DEPOSIT, value);
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.CREDIT_DEPOSIT_ERROR;
+        RV returnValue = this.creditAccount.newTransaction(TransactionType.CREDIT_DEPOSIT, value);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.CREDIT_DEPOSIT_ERROR;
     }
 
-    public int creditPay(int value) {
+    public RV creditPay(int value) {
         if (this.creditAccount == null) {
-            return ReturnValue.NO_CREDIT_CARD_FOUND;
+            return RV.NO_CREDIT_CARD_FOUND;
         }
 
         if ((this.getCreditBalance() - value) < 0) {
             if ((this.getCreditBalance() - value) < -this.maxCreditAllowed) {
-                return ReturnValue.NO_CREDIT_BALANCE;
+                return RV.NO_CREDIT_BALANCE;
             }
 
             // apply negative credit tax
-            value = value + negativeCreditTransationFee;
+            value += negativeCreditTransationFee;
         }
 
-        int check = this.creditAccount.newTransaction(Transaction.TransactionType.CREDIT_PAYMENT, value);
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.CREDIT_PAYMENT_ERROR;
+        RV returnValue = this.creditAccount.newTransaction(TransactionType.CREDIT_PAYMENT, value);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.CREDIT_PAYMENT_ERROR;
     }
 
-    private int initCreditAccount() {
+    private RV initCreditAccount() {
         this.creditAccount = new AccountCredit();
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 
-    public int printCreditTransactions() {
+    public RV printCreditTransactions() {
         if (this.creditAccount == null) {
-            return ReturnValue.NO_CREDIT_CARD_FOUND;
+            return RV.NO_CREDIT_CARD_FOUND;
         }
 
         this.creditAccount.printTransactions();
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 }

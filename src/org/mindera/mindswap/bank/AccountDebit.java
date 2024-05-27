@@ -9,15 +9,15 @@ public class AccountDebit extends AccountBase {
         int balance = 0;
 
         for (int i = 0; i < transactions.length; i++) {
-            if (transactions[i].getType() == Transaction.TransactionType.DEBIT_DEPOSIT) {
+            if (transactions[i].getType() == TransactionType.DEBIT_DEPOSIT) {
                 balance += transactions[i].getValue();
             }
 
-            if (transactions[i].getType() == Transaction.TransactionType.DEBIT_WITHDRAW) {
+            if (transactions[i].getType() == TransactionType.DEBIT_WITHDRAW) {
                 balance -= transactions[i].getValue();
             }
 
-            if (transactions[i].getType() == Transaction.TransactionType.DEBIT_PAYMENT) {
+            if (transactions[i].getType() == TransactionType.DEBIT_PAYMENT) {
                 balance -= transactions[i].getValue();
             }
         }
@@ -30,10 +30,9 @@ public class AccountDebit extends AccountBase {
 
     // functions
 
-    public int newTransaction(int type, int value) {
+    public RV newTransaction(TransactionType type, int value) {
         Transaction newTransaction = new Transaction(type, value, "debit transaction");
-        int check = this.pushTransaction(newTransaction);
-
-        return check == ReturnValue.SUCCESS ? ReturnValue.SUCCESS : ReturnValue.GENERIC_ERROR;
+        RV returnValue = this.pushTransaction(newTransaction);
+        return returnValue == RV.SUCCESS ? RV.SUCCESS : RV.GENERIC_ERROR;
     }
 }

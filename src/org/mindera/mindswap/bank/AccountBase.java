@@ -21,7 +21,7 @@ public abstract class AccountBase {
 
     // functions
 
-    public int pushTransaction(Transaction transaction) {
+    public RV pushTransaction(Transaction transaction) {
         // create new array with 1 more position
         Transaction[] newTransactionList = new Transaction[transactions.length + 1];
 
@@ -35,6 +35,6 @@ public abstract class AccountBase {
 
         transactions = newTransactionList;
 
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 }
