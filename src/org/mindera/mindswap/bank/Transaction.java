@@ -2,40 +2,27 @@ package org.mindera.mindswap.bank;
 
 public class Transaction {
 
-    public static class TransactionType {
-
-        // debit
-        public final static int DEBIT_DEPOSIT   = 100;
-        public final static int DEBIT_WITHDRAW  = 101;
-        public final static int DEBIT_PAYMENT   = 102;
-
-        // credit
-        public final static int CREDIT_DEPOSIT  = 200;
-        public final static int CREDIT_PAYMENT  = 202;
-    }
-
-    private int type;
+    private TransactionType type;
     private int value;
     private String description;
 
     // contructors
 
-    public Transaction(int type, int value, String description) {
+    public Transaction(TransactionType type, int value, String description) {
         this.type = type;
         this.value = value;
         this.description = description;
     }
 
     // gets
-    public int getType() {
+    public TransactionType getType() {
         return type;
     }
 
     public int getValue() {
         return value;
     }
-
-
+    
     // sets
 
     // functions

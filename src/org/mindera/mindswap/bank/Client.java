@@ -24,90 +24,89 @@ public class Client {
     // sets
 
     // functions
-
-
-    public int newBankAccount (Bank newBank){
+    
+    public RV newBankAccount(Bank newBank) {
         if (this.checkIfBankAlreadyExists(newBank)) {
-            return ReturnValue.BANK_ALREADY_EXIST;
+            return RV.BANK_ALREADY_EXIST;
         }
 
         this.pushNewBankClient(newBank);
-        return ReturnValue.SUCCESS;
+        return RV.SUCCESS;
     }
 
     // debit
-    public int newDebitCard() {
+    public RV newDebitCard() {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         return this.banks[defaultBank].newDebitCard();
     }
 
-    public int debitDeposit(int depositValue) {
+    public RV debitDeposit(int depositValue) {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         if (depositValue <= 0) {
-            return ReturnValue.INVALID_TRANSACTION_VALUE;
+            return RV.INVALID_TRANSACTION_VALUE;
         }
 
         return this.banks[defaultBank].debitDeposit(depositValue);
     }
 
-    public int widthdraw(int widthdrawValue) {
+    public RV withdraw(int withdrawValue) {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
-        if (widthdrawValue <= 0) {
-            return ReturnValue.INVALID_TRANSACTION_VALUE;
+        if (withdrawValue <= 0) {
+            return RV.INVALID_TRANSACTION_VALUE;
         }
 
-        return this.banks[defaultBank].widthdraw(widthdrawValue);
+        return this.banks[defaultBank].withdraw(withdrawValue);
     }
 
-    public int debitPay(int payValue) {
+    public RV debitPay(int payValue) {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         if (payValue <= 0) {
-            return ReturnValue.INVALID_TRANSACTION_VALUE;
+            return RV.INVALID_TRANSACTION_VALUE;
         }
 
         return this.banks[defaultBank].debitPay(payValue);
     }
 
     // credit
-    public int newCreditCard() {
+    public RV newCreditCard() {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         return this.banks[defaultBank].newCreditCard();
     }
 
-    public int creditDeposit(int depositValue) {
+    public RV creditDeposit(int depositValue) {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         if (depositValue <= 0) {
-            return ReturnValue.INVALID_TRANSACTION_VALUE;
+            return RV.INVALID_TRANSACTION_VALUE;
         }
 
         return this.banks[defaultBank].creditDeposit(depositValue);
     }
 
-    public int creditPay(int payValue) {
+    public RV creditPay(int payValue) {
         if (this.banks.length == 0) {
-            return ReturnValue.NO_BANK_EXISTS;
+            return RV.NO_BANK_EXISTS;
         }
 
         if (payValue <= 0) {
-            return ReturnValue.INVALID_TRANSACTION_VALUE;
+            return RV.INVALID_TRANSACTION_VALUE;
         }
 
         return this.banks[defaultBank].creditPay(payValue);
@@ -115,7 +114,7 @@ public class Client {
 
     private boolean checkIfBankAlreadyExists(Bank newBank) {
         for (int i = 0; i < this.banks.length; i++) {
-            if(newBank.getName().equals(this.banks[i].getName())) {
+            if (newBank.getName().equals(this.banks[i].getName())) {
                 return true;
             }
         }
