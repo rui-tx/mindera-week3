@@ -65,14 +65,13 @@ public class Game {
         // draw = 0;
         // winner p1 = 1
         // winner p2 = 2
-        int winner = -2; // had to init with something
+        int winner;
 
         // magic numbers BAD! just for testing
         // 0 -> player1
         // 1 -> player2
 
-        //for (int i = 0; i < this.playerList.length; i++) {
-        switch (obtainTheResultOfTheBattle()) {
+        switch (this.obtainTheResultOfTheBattle()) {
             case -1:
                 System.out.println(">>> Winner is " + this.playerList[1].getPlayerName() + ", with "+ this.playerList[1].currentPlayerHandName() +  "! <<<");
                 winner = 2;
@@ -82,29 +81,31 @@ public class Game {
                 winner = 1;
                 break;
             default:
-                System.out.println("\tIt's a draw, let's go again!\n\n\n\n");
+                System.out.println("It's a draw, let's go again!\n");
                 winner = 0;
         }
-        //}
 
         return winner;
     }
 
     private int obtainTheResultOfTheBattle() {
-        return winConditionTable[obtainHandFromPlayer(0)][obtainHandFromPlayer(1)];
+        return winConditionTable[this.obtainHandFromPlayer(0)][this.obtainHandFromPlayer(1)];
     }
 
-    private int obtainHandFromPlayer(int player){
+    private int obtainHandFromPlayer(int player) {
+        System.out.println("Player [" + player + "] has: " + this.playerList[player].currentPlayerHandName());
         return this.playerList[player].getCurrentPlayerHand();
     }
 
-
     public void start(){
         for (int i = 1; i <= getNumberOfGames(); i++) {
+
             System.out.println(">>> Game number " + i + " <<<");
             while (!isGameEnded()) {
 
                 // make hands for players
+                this.playerList[0].setCurrentPlayerHand();
+                this.playerList[1].setCurrentPlayerHand();
 
                 // just for 2 players as of now
                 int winner = decideWinner();
@@ -127,13 +128,4 @@ public class Game {
         }
     }
 
-    public static void getPlayers(Game game) {
-        // make hands for players still in the game
-        for (int i = 0; i < game.playerList.length; i++) {
-            if (game.playerList[i].isStillOnTheGame()) {
-                game.playerList[i].setCurrentPlayerHand();
-                System.out.println("[" + game.playerList[i].getPlayerName() + "] hand: " + game.playerList[i].currentPlayerHandName());
-            }
-        }
-    }
 }
