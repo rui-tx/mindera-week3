@@ -1,6 +1,6 @@
 package org.mindera.mindswap.rockpaperscissors;
 
-import static org.mindera.mindswap.rockpaperscissors.WinConditions.*;
+import static org.mindera.mindswap.rockpaperscissors.WinCondition.*;
 
 public class Game {
     // paper    -> 0 -> PAPER
@@ -19,7 +19,7 @@ public class Game {
     // -1       -> LOSE
 
     // this table has all the possible combinations of rock paper scissors
-    private final WinConditions[][] winConditionTable = {
+    private final WinCondition[][] winConditionTable = {
             {DRAW, WINS, LOSE},
             {LOSE, DRAW, WINS},
             {WINS, LOSE, DRAW}
@@ -69,7 +69,7 @@ public class Game {
                 this.playerList[p2Index].setCurrentPlayerHand();
 
                 // just for 2 players as of now
-                WinConditions winner = decideWinner();
+                WinCondition winner = decideWinner();
 
                 // loops until it finds a winner
                 if (winner != DRAW) {
@@ -83,8 +83,8 @@ public class Game {
         }
     }
 
-    private WinConditions decideWinner() {
-        WinConditions winner;
+    private WinCondition decideWinner() {
+        WinCondition winner;
         switch (this.obtainTheResultOfTheBattle()) {
             case LOSE:
                 System.out.println(">>> Winner is " + this.playerList[p2Index].getPlayerName() + ", with " + this.playerList[p2Index].getPlayerHand().getName() + "! <<<");
@@ -102,7 +102,7 @@ public class Game {
         return winner;
     }
 
-    private WinConditions obtainTheResultOfTheBattle() {
+    private WinCondition obtainTheResultOfTheBattle() {
         return winConditionTable[this.obtainHandFromPlayer(p1Index)][this.obtainHandFromPlayer(p2Index)];
     }
 

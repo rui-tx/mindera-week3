@@ -1,6 +1,6 @@
 package org.mindera.mindswap.rockpaperscissors;
 
-public enum WinConditions {
+public enum WinCondition {
     WINS(1),
     DRAW(0),
     LOSE(-1),
@@ -11,7 +11,7 @@ public enum WinConditions {
 
     // constructor
 
-    WinConditions(int state) {
+    WinCondition(int state) {
         this.state = state;
     }
 
