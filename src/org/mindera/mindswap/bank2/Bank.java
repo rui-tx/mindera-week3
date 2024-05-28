@@ -61,16 +61,20 @@ public class Bank {
         }
 
         return new Card(accountNumber, CardTypeE.CREDIT);
-
     }
 
 
 
     public void deposit(Card clientCard, int amount) {
 
-        System.out.println(this.clientAccounts[clientCard.getAccountNumber()]);
+        //this.clientAccounts[clientCard.getAccountNumber()]
 
+
+        System.out.println(this.clientAccounts[clientCard.getAccountNumber()]);
     }
+
+
+
 
 
 
