@@ -1,12 +1,11 @@
 package org.mindera.mindswap.rockpaperscissors;
 
+import static org.mindera.mindswap.rockpaperscissors.WinConditions.*;
+
 public class Game {
-
-    private final int numberOfGames = 10;
-
-    // paper    -> 0
-    // rock     -> 1
-    // scissor  -> 2
+    // paper    -> 0 -> PAPER
+    // rock     -> 1 -> ROCK
+    // scissor  -> 2 -> SCISSOR
 
     // line then column
     /*
@@ -15,29 +14,32 @@ public class Game {
         r   -1  0   1
         s   1   -1  0
                             */
-    // 0        -> draw
-    // 1        -> wins
-    // -1       -> loses
+    // 0        -> DRAW
+    // 1        -> WINS
+    // -1       -> LOSE
 
     // this table has all the possible combinations of rock paper scissors
-    private final int[][] winConditionTable = {
-            {WinConditions.DRAW.getState(), WinConditions.WINS.getState(), WinConditions.LOSE.getState()},
-            {WinConditions.LOSE.getState(), WinConditions.DRAW.getState(), WinConditions.WINS.getState()},
-            {WinConditions.WINS.getState(), WinConditions.LOSE.getState(), WinConditions.DRAW.getState()}
+    private final WinConditions[][] winConditionTable = {
+            {DRAW, WINS, LOSE},
+            {LOSE, DRAW, WINS},
+            {WINS, LOSE, DRAW}
     };
 
-    public int winner;
-
-    // game has a player objects list
-    public Player[] playerList;
-
-    // check if game state has ended
+    private Player[] playerList;
+    private int numberOfGames;
+    private int p1Index;
+    private int p2Index;
     private boolean gameEnded;
 
     // constructor
 
     public Game(Player[] playerList) {
+
         this.playerList = playerList;
+        this.numberOfGames = 10;
+        this.p1Index = 0;
+        this.p2Index = 1;
+        this.gameEnded = false;
     }
 
     // gets
@@ -45,7 +47,6 @@ public class Game {
     public int getNumberOfGames() {
         return numberOfGames;
     }
-
     public boolean isGameEnded() {
         return gameEnded;
     }
@@ -57,43 +58,6 @@ public class Game {
     }
 
     // functions
-
-    public int decideWinner() {
-        // draw = 0;
-        // winner p1 = 1
-        // winner p2 = 2
-        int winner;
-
-        // magic numbers BAD! just for testing
-        // 0 -> player1
-        // 1 -> player2
-
-        switch (this.obtainTheResultOfTheBattle()) {
-            case -1:
-                System.out.println(">>> Winner is " + this.playerList[1].getPlayerName() + ", with " + this.playerList[1].currentPlayerHandName() + "! <<<");
-                winner = 2;
-                break;
-            case 1:
-                System.out.println(">>> Winner is " + this.playerList[0].getPlayerName() + ", with " + this.playerList[0].currentPlayerHandName() + "! <<<");
-                winner = 1;
-                break;
-            default:
-                System.out.println("It's a draw, let's go again!\n");
-                winner = 0;
-        }
-
-        return winner;
-    }
-
-    private int obtainTheResultOfTheBattle() {
-        return winConditionTable[this.obtainHandFromPlayer(0)][this.obtainHandFromPlayer(1)];
-    }
-
-    private int obtainHandFromPlayer(int player) {
-        System.out.println("Player [" + player + "] has: " + this.playerList[player].currentPlayerHandName());
-        return this.playerList[player].getCurrentPlayerHand();
-    }
-
     public void start() {
         for (int i = 1; i <= getNumberOfGames(); i++) {
 
@@ -101,21 +65,15 @@ public class Game {
             while (!isGameEnded()) {
 
                 // make hands for players
-                this.playerList[0].setCurrentPlayerHand();
-                this.playerList[1].setCurrentPlayerHand();
+                this.playerList[p1Index].setCurrentPlayerHand();
+                this.playerList[p2Index].setCurrentPlayerHand();
 
                 // just for 2 players as of now
-                int winner = decideWinner();
+                WinConditions winner = decideWinner();
 
                 // loops until it finds a winner
-                if (winner != 0) {
+                if (winner != DRAW) {
                     setGameEnded(true);
-                }
-
-                // winner is initialized with -2, so if it's still -2 here, something went very wrong with the game logic
-                if (winner == -2) {
-                    System.out.println("[ERROR] Something has went very wrong... Exiting the game...");
-                    return;
                 }
             }
 
@@ -125,4 +83,31 @@ public class Game {
         }
     }
 
+    private WinConditions decideWinner() {
+        WinConditions winner;
+        switch (this.obtainTheResultOfTheBattle()) {
+            case LOSE:
+                System.out.println(">>> Winner is " + this.playerList[p2Index].getPlayerName() + ", with " + this.playerList[p2Index].getPlayerHand().getName() + "! <<<");
+                winner = P2WINS;
+                break;
+            case WINS:
+                System.out.println(">>> Winner is " + this.playerList[p1Index].getPlayerName() + ", with " + this.playerList[p2Index].getPlayerHand().getName() + "! <<<");
+                winner = P1WINS;
+                break;
+            default:
+                System.out.println("It's a draw, let's go again!\n");
+                winner = DRAW;
+        }
+
+        return winner;
+    }
+
+    private WinConditions obtainTheResultOfTheBattle() {
+        return winConditionTable[this.obtainHandFromPlayer(p1Index)][this.obtainHandFromPlayer(p2Index)];
+    }
+
+    private int obtainHandFromPlayer(int player) {
+        System.out.println("Player [" + player + "] has: " + this.playerList[player].getPlayerHand().getName());
+        return this.playerList[player].getPlayerHand().getValue();
+    }
 }
