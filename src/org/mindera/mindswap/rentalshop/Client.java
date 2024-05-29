@@ -48,4 +48,8 @@ public class Client {
 
         return currentVehivcle;
     }
+
+    public void getCarType() {
+        System.out.println(this.vehicle.getMaximumSpeed());
+    }
 }

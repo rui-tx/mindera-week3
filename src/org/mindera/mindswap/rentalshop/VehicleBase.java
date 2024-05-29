@@ -1,5 +1,7 @@
 package org.mindera.mindswap.rentalshop;
 
+import static org.mindera.mindswap.rentalshop.VehicleTypeE.CAR;
+
 public abstract class VehicleBase {
 
     public static final int MAX_FUEL_LEVEL = 25;
@@ -15,6 +17,14 @@ public abstract class VehicleBase {
         this.consumptionValue = consumptionValue;
         this.maximumSpeed = maximumSpeed;
         this.vehicleType = type;
+        this.fuelLevel = MAX_FUEL_LEVEL;
+    }
+
+    VehicleBase(int vehicleId, CarListE car) {
+        this.vehicleId = vehicleId;
+        this.consumptionValue = car.getConsuptionLevel();
+        this.maximumSpeed = car.getMaxSpeed();
+        this.vehicleType = CAR;
         this.fuelLevel = MAX_FUEL_LEVEL;
     }
 
@@ -47,7 +57,7 @@ public abstract class VehicleBase {
         float checkKMperHour = (distance / ((float) time / 60));
         // check speed
         if(checkKMperHour > this.getMaximumSpeed()) {
-            System.out.println("Error! Vehicle can't go that fast: " + checkKMperHour + "KM/h.");
+            System.out.println("Error! Vehicle can't go that fast: " + (int) checkKMperHour + "KM/h.");
             return false;
         }
 
@@ -58,7 +68,7 @@ public abstract class VehicleBase {
             return false;
         }
 
-        System.out.println("Vehicle travelled " + distance + " km at a speed of " + checkKMperHour + "KM/h and used " + checkKMperL + "L");
+        System.out.println("Vehicle travelled " + distance + " km at a speed of " + (int) checkKMperHour + "KM/h and used " + checkKMperL + "L");
         this.decreaseFuelLevel((int) checkKMperL);
         System.out.println("Vehicle has " + this.getFuelLevel() + "L of fuel left.");
         return true;

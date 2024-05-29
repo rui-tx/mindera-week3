@@ -12,8 +12,8 @@ public class Main {
 
         client1.loanCar(shop1.getNewVehicle(CAR));
 
-        client1.drive(80, 48);
-        client1.refuel();
+        client1.drive(Random.getRandomNumber(1,200), Random.getRandomNumber(1,100));
+        //client1.refuel();
 
         shop1.returnVehicle(client1.deliverCurrentVehicle());
         System.out.println();
