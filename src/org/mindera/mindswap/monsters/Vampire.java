@@ -7,7 +7,7 @@ import static org.mindera.mindswap.monsters.MonsterTypeEnum.VAMPIRE;
 public class Vampire extends Monster{
 
     public Vampire() {
-        super(VAMPIRE);
+        super(VAMPIRE.getHealth(), VAMPIRE.getAttackPower());
     }
 
     @Override

@@ -3,9 +3,9 @@ package org.mindera.mindswap.monsters;
 import org.mindera.mindswap.rockpaperscissors.Random;
 
 public enum MonsterTypeEnum {
-    WEREWOLF(10, 1),
-    VAMPIRE(10, 1),
-    MUMMY(10, 1);
+    WEREWOLF(10, 5),
+    VAMPIRE(10, 5),
+    MUMMY(10, 5);
 
     private final int health;
     private final int attackPower;
@@ -25,14 +25,11 @@ public enum MonsterTypeEnum {
 
     public static MonsterTypeEnum getRandomMonster() {
         int random = Random.getRandomNumber(0, MonsterTypeEnum.values().length - 1);
-        switch (random) {
-            case 0:
-                return WEREWOLF;
-            case 1:
-                return VAMPIRE;
-            case 2:
-                return MUMMY;
-        }
-        return null;
+        return switch (random) {
+            case 0 -> WEREWOLF;
+            case 1 -> VAMPIRE;
+            case 2 -> MUMMY;
+            default -> null;
+        };
     }
 }

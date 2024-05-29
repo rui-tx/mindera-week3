@@ -7,7 +7,7 @@ public class Mummy extends Monster{
     private int numberOfConsecutiveAttacks;
 
     public Mummy() {
-        super(MUMMY);
+        super(MUMMY.getHealth(), MUMMY.getAttackPower());
     }
 
     @Override
@@ -21,6 +21,7 @@ public class Mummy extends Monster{
             System.out.println("Mummy tries to attack, fails, hits his head and loses 5 health!");
             this.decreaseHealth(5);
             this.numberOfConsecutiveAttacks = 0;
+            return;
         } else {
             this.numberOfConsecutiveAttacks++;
         }

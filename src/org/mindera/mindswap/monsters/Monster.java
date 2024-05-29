@@ -6,9 +6,9 @@ public abstract class Monster {
     private int health;
     private int attackPower;
 
-    public Monster(MonsterTypeEnum type) {
-        this.health = type.getHealth();
-        this.attackPower = type.getAttackPower();
+    public Monster(int health, int attackPower) {
+        this.health = health;
+        this.attackPower = attackPower;
     }
 
     public int getHealth() {
