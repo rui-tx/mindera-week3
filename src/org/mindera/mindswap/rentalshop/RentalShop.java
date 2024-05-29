@@ -2,6 +2,7 @@ package org.mindera.mindswap.rentalshop;
 
 import org.mindera.mindswap.rockpaperscissors.Random;
 
+import static org.mindera.mindswap.rentalshop.CarListE.*;
 import static org.mindera.mindswap.rentalshop.VehicleTypeE.CAR;
 import static org.mindera.mindswap.rentalshop.VehicleTypeE.MOTORCYCLE;
 
@@ -18,7 +19,7 @@ public class RentalShop {
     private void vehicleListInit() {
         for (int i = 0; i < this.vehicleList.length; i++) {
             if (Random.getRandomNumber(0,1) == 0) {
-                this.vehicleList[i] = new Car(i,10, 120, CAR);
+                this.vehicleList[i] = new Car(i, TOYOTA);
             } else {
                 this.vehicleList[i] = new Motorcycle(i,5, 100, MOTORCYCLE);
             }

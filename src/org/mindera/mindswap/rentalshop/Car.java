@@ -6,6 +6,10 @@ public class Car extends VehicleBase {
         super(id, consumptionValue, maximumSpeed, type);
     }
 
+    public Car(int id, CarListE car) {
+        super(id, car);
+    }
+
     @Override
     public String toString() {
         return "This is a Car object.";
