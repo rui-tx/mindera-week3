@@ -11,16 +11,6 @@ public class Main {
         Player p1 = new Player("player 1", p1MonsterList);
         Player p2 = new Player("player 2", numberOfMonsters); // random monsters
 
-        /*
-        for (int i = 0; i < 6; i++) {
-            p1.testBattle();
-            System.out.println();
-        }
-
-         */
-
-
-
         Game game = new Game(p1, p2);
 
         game.play();

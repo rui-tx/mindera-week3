@@ -19,8 +19,8 @@ public class Vampire extends Monster{
     public void attack(Monster other) {
         int increaseHealthChance = Random.getRandomNumber(1,5); // 1 in 5
         if (increaseHealthChance == 5) {
-            System.out.println("Vampire bites the enemy! Health increase by 5");
-            this.increaseHealth(5);
+            System.out.println(">>> Critical Hit! Vampire bites the enemy! Health increase by " + VAMPIRE.getHealth() + " points <<<");
+            this.increaseHealth(VAMPIRE.getAttackPower());
         }
 
         super.attack(other);
