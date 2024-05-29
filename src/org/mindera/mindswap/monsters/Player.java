@@ -14,12 +14,6 @@ public class Player {
         this.initMonsterList();
     }
 
-    public void debug() {
-        for (int i = 0; i < this.monsterList.length; i++) {
-            System.out.println("Monster type: " + this.monsterList[i]);
-        }
-    }
-
     private void initMonsterList() {
         for (int i = 0; i < this.monsterList.length; i++) {
 
@@ -29,6 +23,19 @@ public class Player {
     }
 
     // testing
+
+    public void debug() {
+        for (int i = 0; i < this.monsterList.length; i++) {
+            System.out.println("Monster type: " + this.monsterList[i]);
+        }
+    }
+
+    public void testBattle() {
+        this.monsterList[0].attack(this.monsterList[1]);
+        System.out.println("Monster 0: " + this.monsterList[0].toString() + " attacked " + this.monsterList[1].toString());
+        System.out.println("Monster 0 health: " + this.monsterList[0].getHealth());
+        System.out.println("Monster 1 health: " + this.monsterList[1].getHealth());
+    }
 
     private Monster getRandomMonster() {
         MonsterTypeEnum randomMonstertype = MonsterTypeEnum.getRandomMonster();
@@ -46,6 +53,5 @@ public class Player {
                 return new Mummy();
             default: return null;
         }
-
     }
 }

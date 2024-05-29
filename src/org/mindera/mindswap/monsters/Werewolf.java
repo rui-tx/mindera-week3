@@ -10,6 +10,6 @@ public class Werewolf extends Monster{
 
     @Override
     public String toString() {
-        return "This is a Werewolf.";
+        return "Werewolf";
     }
 }
