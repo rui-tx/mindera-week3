@@ -24,7 +24,7 @@ public class Player {
     private void pickMonsters(MonsterTypeEnum[] monsters) {
         for (int i = 0; i < this.monsterList.length; i++) {
 
-            switch (monsters[i]){
+            switch (monsters[i]) {
                 case WEREWOLF:
                     this.monsterList[i] = new Werewolf();
                     break;
@@ -34,10 +34,17 @@ public class Player {
                 case MUMMY:
                     this.monsterList[i] = new Mummy();
                     break;
-                default: this.monsterList[i] = null;
+                default:
+                    this.monsterList[i] = null;
             }
         }
 
+    }
+
+    private void initMonsterList() {
+        for (int i = 0; i < this.monsterList.length; i++) {
+            this.monsterList[i] = getRandomMonster();
+        }
     }
 
     public Monster[] getMonsterList() {
@@ -54,7 +61,7 @@ public class Player {
     }
 
     public int getNextMonsterFromHand() {
-        if(this.checkIfAllMonstersAreDead()) {
+        if (this.checkIfAllMonstersAreDead()) {
             return -1;
         }
 
@@ -66,46 +73,71 @@ public class Player {
         return -1;
     }
 
-    private void initMonsterList() {
-        for (int i = 0; i < this.monsterList.length; i++) {
-
-            this.monsterList[i] = getRandomMonster();
-
+    // because we have nulls, we sort the player hand after each monster dies
+    // this way we can randomize the pick and make sure the pick is not null
+    public void sortPlayerMonsters() {
+        if (this.checkIfAllMonstersAreDead()) {
+            return;
         }
-    }
 
-    // testing
+        Monster[] sortedMonsterArray = new Monster[this.monsterList.length];
 
-    public void debug() {
-        for (int i = 0; i < this.monsterList.length; i++) {
-            System.out.println("Monster type: " + this.monsterList[i]);
+        int checkAlive = -1;
+        for (int i = 0; i < this.checkHowManyMonstersAreAlive(); i++) {
+            if (this.monsterList[i] != null) {
+                checkAlive++;
+                sortedMonsterArray[checkAlive] = this.monsterList[i];
+            }
         }
-    }
 
-    public void testBattle() {
-        this.monsterList[0].attack(this.monsterList[1]);
-        System.out.println("Monster 0: " + this.monsterList[0].toString() + " attacked " + this.monsterList[1].toString());
-        System.out.println("Monster 0 health: " + this.monsterList[0].getHealth());
-        System.out.println("Monster 1 health: " + this.monsterList[1].getHealth());
+        this.monsterList = sortedMonsterArray;
     }
 
 
+    // because we have null index we need to sort
+    public int getRandomMonsterIndexFromHand() {
+        if (this.checkIfAllMonstersAreDead()) {
+            return -1;
+        }
+
+        return Random.getRandomNumber(0, this.checkHowManyMonstersAreAlive() - 1);
+    }
+
+    public int checkHowManyMonstersAreAlive() {
+        int monstersAlive = 0;
+        for (int i = 0; i < this.monsterList.length; i++) {
+            if (this.monsterList[i] != null) {
+                monstersAlive++;
+            }
+        }
+        return monstersAlive;
+    }
 
     private Monster getRandomMonster() {
         MonsterTypeEnum randomMonstertype = MonsterTypeEnum.getRandomMonster();
-        if(randomMonstertype == null) {
+        if (randomMonstertype == null) {
             System.out.println("Random monster failed.");
             return null;
         }
 
-        switch (randomMonstertype){
+        switch (randomMonstertype) {
             case WEREWOLF:
                 return new Werewolf();
             case VAMPIRE:
                 return new Vampire();
             case MUMMY:
                 return new Mummy();
-            default: return null;
+            default:
+                return null;
+        }
+    }
+
+    public void printMonsters() {
+        for (int i = 0; i < this.monsterList.length; i++) {
+            if (this.monsterList[i] != null) {
+                System.out.println("[" + i + "]: " + this.monsterList[i].toString() + " health: " + this.monsterList[i].getHealth());
+            }
+
         }
     }
 }
