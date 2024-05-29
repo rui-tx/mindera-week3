@@ -5,7 +5,7 @@ import static org.mindera.mindswap.monsters.MonsterTypeEnum.WEREWOLF;
 public class Werewolf extends Monster{
 
     public Werewolf() {
-        super(WEREWOLF);
+        super(WEREWOLF.getHealth(), WEREWOLF.getAttackPower());
     }
 
     @Override
