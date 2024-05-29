@@ -8,7 +8,23 @@ import static org.mindera.mindswap.rentalshop.VehicleTypeE.MOTORCYCLE;
 public class Main {
     public static void main(String[] args) {
         RentalShop shop1 = new RentalShop();
+        Client client1 = new Client("Rui");
 
+        client1.loanCar(shop1.getNewVehicle(CAR));
+
+        client1.drive(80, 48);
+        client1.refuel();
+
+        shop1.returnVehicle(client1.deliverCurrentVehicle());
+        System.out.println();
+
+        // errors
+        //client1.drive(80, 100);
+        //shop1.returnVehicle(client1.deliverCurrentVehicle());
+
+        shop1.printVehicleStats();
+
+        /*
         VehicleBase vehicle1 = shop1.getNewVehicle(CAR);
         if (vehicle1 == null) {
             System.out.println("No vehicle of type select available.");
@@ -39,6 +55,8 @@ public class Main {
             shop1.returnVehicle(vehicle2);
         }
 
-        shop1.printVehicleStats();
+         */
+
+
     }
 }

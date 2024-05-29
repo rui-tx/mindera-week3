@@ -26,10 +26,8 @@ public class RentalShop {
     }
 
     public VehicleBase getNewVehicle(VehicleTypeE type) {
-        // vehicleList[i] typeof Car
         for (int i = 0; i < this.vehicleList.length; i++) {
             if (this.vehicleList[i] != null) {
-
                 if(this.vehicleList[i].getVehicleType().equals(type)) {
                     VehicleBase vehicle = this.vehicleList[i];
                     this.vehicleList[i] = null;
@@ -43,7 +41,7 @@ public class RentalShop {
 
     public void returnVehicle(VehicleBase vehicle) {
         if(vehicle == null) {
-            System.out.println("Vehicle is null.");
+            System.out.println("That is not a valid vehicle. Can't receive it.");
             return;
         }
 
@@ -66,7 +64,6 @@ public class RentalShop {
     }
 
     public void printVehicleStats () {
-
         int vehiclesBeingUsed = 0;
 
         for (int i = 0; i < this.vehicleList.length; i++) {
