@@ -7,9 +7,10 @@ public class Main {
 
         int numberOfMonsters = 4;
 
-        MonsterTypeEnum[] p1MonsterList = {MUMMY, WEREWOLF, VAMPIRE, MUMMY};
-        Player p1 = new Player("player 1", p1MonsterList);
-        Player p2 = new Player("player 2", numberOfMonsters); // random monsters
+        MonsterTypeEnum[] monsterList = {MUMMY, WEREWOLF, VAMPIRE, MUMMY, WEREWOLF, VAMPIRE};
+        //Player p1 = new Player("Rui", p1MonsterList);
+        Player p1 = new Player("Rui", monsterList);
+        Player p2 = new Player("Sofia", monsterList);
 
         Game game = new Game(p1, p2);
 
