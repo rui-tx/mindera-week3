@@ -2,13 +2,19 @@ package org.mindera.mindswap.monsters;
 
 public abstract class Monster {
 
-    private MonsterTypeEnum type;
     private int health;
     private int attackPower;
+    private String name;
 
     public Monster(int health, int attackPower) {
         this.health = health;
         this.attackPower = attackPower;
+    }
+
+    public Monster(int health, int attackPower, String name) {
+        this.health = health;
+        this.attackPower = attackPower;
+        this.name = name;
     }
 
     public int getHealth() {
@@ -19,9 +25,13 @@ public abstract class Monster {
         return attackPower;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "This is a Monster of type: " + this.type.toString();
+        return "This is a Monster";
     }
 
     public void attack(Monster other) {
@@ -34,5 +44,12 @@ public abstract class Monster {
 
     public void decreaseHealth(int decreaseAmount) {
         this.health -= decreaseAmount;
+        if (this.health <= 0) {
+            this.health = 0;
+        }
+    }
+
+    public boolean isDead() {
+        return this.health <= 0;
     }
 }
