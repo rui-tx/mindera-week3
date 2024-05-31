@@ -45,7 +45,6 @@ public class Player {
                     this.monsterList[i] = null;
             }
         }
-
     }
 
     private void initMonsterList() {
@@ -57,7 +56,6 @@ public class Player {
     public Monster[] getMonsterList() {
         return monsterList;
     }
-
 
     public boolean checkIfAllMonstersAreDead() {
         for (int i = 0; i < this.monsterList.length; i++) {
@@ -179,7 +177,6 @@ public class Player {
             if (this.monsterList[i] != null) {
                 System.out.println("[" + i + "]: " + this.monsterList[i].toString() + " health: " + this.monsterList[i].getHealth());
             }
-
         }
     }
 }

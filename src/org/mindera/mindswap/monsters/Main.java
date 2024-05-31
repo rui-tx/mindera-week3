@@ -13,9 +13,6 @@ public class Main {
         Player p2 = new Player("Sofia", monsterList);
 
         Game game = new Game(p1, p2);
-
         game.play();
-
-
     }
 }

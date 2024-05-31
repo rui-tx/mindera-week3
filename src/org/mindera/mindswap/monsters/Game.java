@@ -12,6 +12,7 @@ public class Game {
     }
 
     public void play() {
+        System.out.println(">>> It's Monster Battle Time! Fight! <<<\n");
         while (!gameEnded) {
 
             // p1 turns
@@ -31,7 +32,7 @@ public class Game {
                 return;
             }
 
-            this.printRoundStatus();
+            //this.printRoundStatus();
         }
     }
 
@@ -50,16 +51,25 @@ public class Game {
             return;
         }
 
-        System.out.printf("%s attacks with %s, %s defends with %s\n",
-                this.p1.getName(), this.p1.getMonsterList()[p1Pick], this.p2.getName(), this.p2.getMonsterList()[p2Pick]);
+        System.out.printf("%s turns\n", this.p1.getName());
+        System.out.printf("%s attacks with [%s] %s (HP: %s AP: %s), %s defends with [%s] %s (HP: %s AP: %s)\n",
+                this.p1.getName(), p1Pick, this.p1.getMonsterList()[p1Pick], this.p1.getMonsterList()[p1Pick].getHealth(), this.p1.getMonsterList()[p1Pick].getAttackPower(),
+                this.p2.getName(), p2Pick, this.p2.getMonsterList()[p2Pick], this.p2.getMonsterList()[p2Pick].getHealth(), this.p2.getMonsterList()[p2Pick].getAttackPower());
+
         this.p1.getMonsterList()[p1Pick].attack(this.p2.getMonsterList()[p2Pick]);
 
+        System.out.println("Results");
+        System.out.printf("[%s] %s (HP: %s AP: %s) \n",
+                p1Pick, this.p1.getMonsterList()[p1Pick], this.p1.getMonsterList()[p1Pick].getHealth(), this.p1.getMonsterList()[p1Pick].getAttackPower());
+        System.out.printf("[%s] %s (HP: %s AP: %s) \n\n",
+                p2Pick, this.p2.getMonsterList()[p2Pick], this.p2.getMonsterList()[p2Pick].getHealth(), this.p2.getMonsterList()[p2Pick].getAttackPower());
+
         if (this.p2.getMonsterList()[p2Pick].isDead()) {
-            System.out.printf("%s %s's is dead!\n", this.p2.getName(), this.p2.getMonsterList()[p2Pick]);
+            System.out.printf("%s's %s is dead!\n\n", this.p2.getName(), this.p2.getMonsterList()[p2Pick]);
             // picks next monster
             p2Pick = this.p2.getRandomMonsterIndexFromHand();
             if (p2Pick == -1) {
-                System.out.printf("%s monster are all dead!\n", this.p2.getName());
+                System.out.printf("%s monsters are all dead!\n", this.p2.getName());
                 this.gameWon(p1);
                 this.gameEnded = true;
             }
@@ -81,16 +91,23 @@ public class Game {
             return;
         }
 
-        System.out.printf("%s attacks with %s, %s defends with %s\n",
-                this.p2.getName(), this.p2.getMonsterList()[p2Pick], this.p1.getName(), this.p1.getMonsterList()[p1Pick]);
+        System.out.printf("%s turns\n", this.p2.getName());
+        System.out.printf("%s attacks with [%s] %s (HP: %s AP: %s), %s defends with [%s] %s (HP: %s AP: %s)\n",
+                this.p2.getName(), p2Pick, this.p2.getMonsterList()[p2Pick], this.p2.getMonsterList()[p2Pick].getHealth(), this.p2.getMonsterList()[p2Pick].getAttackPower(),
+                this.p1.getName(), p1Pick, this.p1.getMonsterList()[p1Pick], this.p1.getMonsterList()[p1Pick].getHealth(), this.p1.getMonsterList()[p1Pick].getAttackPower());
+
         this.p2.getMonsterList()[p2Pick].attack(this.p1.getMonsterList()[p1Pick]);
 
+        System.out.println("Results");
+        System.out.printf("[%s] %s (HP: %s AP: %s) \n", p2Pick, this.p2.getMonsterList()[p2Pick], this.p2.getMonsterList()[p2Pick].getHealth(), this.p2.getMonsterList()[p2Pick].getAttackPower());
+        System.out.printf("[%s] %s (HP: %s AP: %s) \n\n", p1Pick, this.p1.getMonsterList()[p1Pick], this.p1.getMonsterList()[p1Pick].getHealth(), this.p1.getMonsterList()[p1Pick].getAttackPower());
+
         if (this.p1.getMonsterList()[p1Pick].isDead()) {
-            System.out.printf("%s %s's is dead!\n", this.p1.getName(), this.p1.getMonsterList()[p2Pick]);
+            System.out.printf("%s's %s is dead!\n\n", this.p1.getName(), this.p1.getMonsterList()[p1Pick]);
             // picks next monster
             p1Pick = this.p1.getRandomMonsterIndexFromHand();
             if (p1Pick == -1) {
-                System.out.printf("%s monster are all dead!\n", this.p1.getName());
+                System.out.printf("%s monsters are all dead!\n", this.p1.getName());
                 this.gameWon(p2);
                 this.gameEnded = true;
             }
