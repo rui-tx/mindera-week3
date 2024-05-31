@@ -19,10 +19,12 @@ public class Game {
 
     private void makeObstacle() {
         Vampire test = new Vampire(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "test");
-        Fairy testFairy = new Fairy(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "Fairy");
+        Fairy testFairy = new Fairy(WEREWOLF.getAttackPower(), "Fairy");
         Witch testWitch = new Witch(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "Witch");
 
         testFairy.attack(p1.getMonsterList()[0], p2.getMonsterList()[0]);
+
+        test.attack(testWitch);
         
         System.out.println("\n\n\n\n");
     }

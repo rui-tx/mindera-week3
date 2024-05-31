@@ -1,6 +1,6 @@
 package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 
-import org.mindera.mindswap.monstersinterfaces.Supernatural;
+import org.mindera.mindswap.monstersinterfaces.strikeable.StrikeableInterface;
 
 import static org.mindera.mindswap.monsters.MonsterTypeEnum.MUMMY;
 
@@ -26,7 +26,7 @@ public class Mummy extends Monster {
     }
 
     @Override
-    public void attack(Supernatural other) {
+    public void attack(StrikeableInterface other) {
         if (numberOfConsecutiveAttacks == 2) {
             System.out.println(this + " tries to attack, fails, hits his head and loses " + healthLostDueToConsecutiveAttacks + " health!");
             this.decreaseHealth(healthLostDueToConsecutiveAttacks);
