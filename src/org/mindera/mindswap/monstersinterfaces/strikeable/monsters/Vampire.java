@@ -1,6 +1,6 @@
 package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 
-import org.mindera.mindswap.monstersinterfaces.Supernatural;
+import org.mindera.mindswap.monstersinterfaces.strikeable.StrikeableInterface;
 import org.mindera.mindswap.rockpaperscissors.Random;
 
 import static org.mindera.mindswap.monsters.MonsterTypeEnum.VAMPIRE;
@@ -26,7 +26,7 @@ public class Vampire extends Monster {
     }
 
     @Override
-    public void attack(Supernatural other) {
+    public void attack(StrikeableInterface other) {
         //int increaseHealthChance = Random.getRandomNumber(1, 5); // 1 in 5
         if (Random.getRandomNumber(1, this.increaseHealthChance) == this.increaseHealthChance) {
             System.out.println(">>> Critical Hit! " + this + " bites the enemy! Health increase by " + this.getAttackPower() + " points <<<");
@@ -34,5 +34,10 @@ public class Vampire extends Monster {
         }
 
         super.attack(other);
+    }
+
+    private void increaseHealth(int increaseAmount) {
+        int health = this.getHealth() + increaseAmount;
+        this.setHealth(health);
     }
 }
