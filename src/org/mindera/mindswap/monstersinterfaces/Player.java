@@ -29,6 +29,14 @@ public class Player {
         return name;
     }
 
+    public Monster[] getMonsterList() {
+        return monsterList;
+    }
+
+    public int getCurrentMonsterIndex() {
+        return currentMonsterIndex;
+    }
+
     private void pickMonsters(MonsterTypeEnum[] monsters) {
         for (int i = 0; i < this.monsterList.length; i++) {
 
@@ -54,9 +62,6 @@ public class Player {
         }
     }
 
-    public Monster[] getMonsterList() {
-        return monsterList;
-    }
 
     public boolean checkIfAllMonstersAreDead() {
         for (int i = 0; i < this.monsterList.length; i++) {

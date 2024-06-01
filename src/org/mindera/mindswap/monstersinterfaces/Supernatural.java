@@ -26,6 +26,6 @@ public abstract class Supernatural {
 
     public void attack(StrikeableInterface other) {
         int hpLeftOverAfterAttack = other.getHealth() - this.attackPower;
-        other.setHealth(hpLeftOverAfterAttack);
+        other.decreaseHealth(hpLeftOverAfterAttack);
     }
 }

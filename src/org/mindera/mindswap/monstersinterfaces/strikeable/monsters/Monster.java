@@ -39,8 +39,9 @@ public abstract class Monster extends Supernatural implements StrikeableInterfac
     }
 
     public void decreaseHealth(int decreaseAmount) {
-        int health = this.getHealth() - decreaseAmount;
-        this.setHealth(health);
+        //int health = this.getHealth() - decreaseAmount;
+
+        this.setHealth(decreaseAmount);
         if (this.getHealth() <= 0) {
             this.setHealth(0);
         }

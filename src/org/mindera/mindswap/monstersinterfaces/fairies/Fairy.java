@@ -14,7 +14,7 @@ public class Fairy extends Supernatural {
 
     public void attack(StrikeableInterface p1Monster, StrikeableInterface p2Monster) {
 
-        System.out.println("Fairy attacks both players!");
+        System.out.println("A Wild Fairy appears and attacks both players!");
         super.attack(p1Monster);
         super.attack(p2Monster);
         

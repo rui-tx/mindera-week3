@@ -24,12 +24,23 @@ public class Witch extends Supernatural implements StrikeableInterface {
         this.health = health;
     }
 
+    public void attack(StrikeableInterface p1Monster, StrikeableInterface p2Monster) {
+
+        System.out.println(this.getName() + " attacks both players!");
+        super.attack(p1Monster);
+        super.attack(p2Monster);
+
+    }
+
     @Override
     public void decreaseHealth(int decreaseAmount) {
-        int health = this.getHealth() - (decreaseAmount / 2);
-        this.setHealth(health);
+        //System.out.println("Witch decrease damage received to half!");
+        //int health = this.getHealth() - decreaseAmount;
+        this.setHealth(decreaseAmount / 2);
+
         if (this.getHealth() <= 0) {
-            this.health = 0;
+            System.out.println("After a massive blow to the back of the head, the Witch flies away!");
+            this.setHealth(0);
         }
     }
 

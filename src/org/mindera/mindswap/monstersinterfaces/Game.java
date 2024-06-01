@@ -2,7 +2,6 @@ package org.mindera.mindswap.monstersinterfaces;
 
 import org.mindera.mindswap.monstersinterfaces.fairies.Fairy;
 import org.mindera.mindswap.monstersinterfaces.strikeable.Witch;
-import org.mindera.mindswap.monstersinterfaces.strikeable.monsters.Vampire;
 
 import static org.mindera.mindswap.monstersinterfaces.strikeable.monsters.MonsterTypeEnum.WEREWOLF;
 
@@ -11,35 +10,70 @@ public class Game {
     private Player p1;
     private Player p2;
     private boolean gameEnded;
+    private Supernatural miniBoss;
 
     public Game(Player p1, Player p2) {
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    private void makeObstacle() {
-        Vampire test = new Vampire(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "test");
-        Fairy testFairy = new Fairy(WEREWOLF.getAttackPower(), "Fairy");
-        Witch testWitch = new Witch(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "Witch");
+    private void makeMiniBoss() {
 
-        testFairy.attack(p1.getMonsterList()[0], p2.getMonsterList()[0]);
+        if (this.miniBoss == null) {
+            System.out.println(">>> A new mini boss appears! <<<\n");
 
-        test.attack(testWitch);
-        
-        System.out.println("\n\n\n\n");
+            double check = Math.random();
+            if (check <= 0.5) {
+                this.miniBoss = new Fairy(WEREWOLF.getAttackPower(), "Tinkerbell");
+                ((Fairy) miniBoss).attack(p1.getMonsterList()[0], p2.getMonsterList()[0]);
+                System.out.println("The fairy wooshes away giggling like a mad hyena!\n");
+                this.miniBoss = null;
+                return;
+            }
+
+            this.miniBoss = new Witch(WEREWOLF.getHealth(), WEREWOLF.getAttackPower(), "The Witch From the Wilds");
+        }
+
+        //((Witch) miniBoss).attack(p1.getMonsterList()[0], p2.getMonsterList()[0]);
     }
 
     public void play() {
         System.out.println(">>> It's Monster Battle Time! Fight! <<<\n");
         while (!gameEnded) {
 
-            makeObstacle();
+            if (this.miniBoss == null) {
+                double miniBossChance = Math.random();
+                if (miniBossChance <= 0.2) {
+                    this.makeMiniBoss();
+                }
+            }
 
+            if (miniBoss != null) {
+                if (((Witch) (this).miniBoss).getHealth() <= 0) {
+                    this.miniBoss = null;
+                    continue;
+                }
+
+                ((Witch) miniBoss).attack(
+                        p1.getMonsterList()[this.p1.getCurrentMonsterIndex()],
+                        p2.getMonsterList()[this.p2.getCurrentMonsterIndex()]);
+            }
 
             // p1 turns
             this.p1Attacks();
             if (gameEnded) {
                 return;
+            }
+
+            if (miniBoss != null) {
+                if (((Witch) (this).miniBoss).getHealth() <= 0) {
+                    this.miniBoss = null;
+                    continue;
+                }
+
+                ((Witch) miniBoss).attack(
+                        p1.getMonsterList()[this.p1.getCurrentMonsterIndex()],
+                        p2.getMonsterList()[this.p2.getCurrentMonsterIndex()]);
             }
 
             // p2 turns
@@ -62,6 +96,15 @@ public class Game {
         if (p1Pick == -1) {
             this.gameWon(p2);
             this.gameEnded = true;
+            return;
+        }
+
+        if (this.miniBoss != null) {
+            System.out.printf("%s attacks with [%s] %s (HP: %s AP: %s), mini boss %s defends (HP: %s AP: %s)\n",
+                    this.p1.getName(), p1Pick, this.p1.getMonsterList()[p1Pick], this.p1.getMonsterList()[p1Pick].getHealth(), this.p1.getMonsterList()[p1Pick].getAttackPower(),
+                    this.miniBoss.getName(), ((Witch) (this).miniBoss).getHealth(), (this).miniBoss.getAttackPower());
+
+            this.p1.getMonsterList()[p1Pick].attack((Witch) (this).miniBoss);
             return;
         }
 
@@ -98,16 +141,26 @@ public class Game {
     }
 
     private void p2Attacks() {
-        int p1Pick = this.p1.getRandomMonsterIndexFromHand();
-        if (p1Pick == -1) {
-            this.gameWon(p2);
+        int p2Pick = this.p2.getRandomMonsterIndexFromHand();
+        if (p2Pick == -1) {
+            this.gameWon(p1);
             this.gameEnded = true;
             return;
         }
 
-        int p2Pick = this.p2.getRandomMonsterIndexFromHand();
-        if (p2Pick == -1) {
-            this.gameWon(p1);
+        if (this.miniBoss != null) {
+            System.out.printf("%s attacks with [%s] %s (HP: %s AP: %s), mini boss %s defends (HP: %s AP: %s)\n",
+                    this.p2.getName(), p2Pick, this.p2.getMonsterList()[p2Pick], this.p2.getMonsterList()[p2Pick].getHealth(), this.p2.getMonsterList()[p2Pick].getAttackPower(),
+                    this.miniBoss.getName(), ((Witch) (this).miniBoss).getHealth(), (this).miniBoss.getAttackPower());
+
+            this.p2.getMonsterList()[p2Pick].attack((Witch) (this).miniBoss);
+
+            return;
+        }
+
+        int p1Pick = this.p1.getRandomMonsterIndexFromHand();
+        if (p1Pick == -1) {
+            this.gameWon(p2);
             this.gameEnded = true;
             return;
         }

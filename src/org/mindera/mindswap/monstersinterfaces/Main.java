@@ -7,7 +7,7 @@ import static org.mindera.mindswap.monstersinterfaces.strikeable.monsters.Monste
 public class Main {
     public static void main(String[] args) {
 
-        int numberOfMonsters = 1;
+        int numberOfMonsters = 4;
 
         MonsterTypeEnum[] monsterList = {MUMMY, WEREWOLF, VAMPIRE, MUMMY, WEREWOLF, VAMPIRE};
         //Player p1 = new Player("Rui", p1MonsterList);
