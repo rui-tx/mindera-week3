@@ -8,4 +8,6 @@ public interface StrikeableInterface {
     void decreaseHealth(int decreaseAmount);
 
     boolean isDead();
+
+    int getAttackPower();
 }

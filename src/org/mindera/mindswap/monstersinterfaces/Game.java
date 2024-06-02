@@ -3,19 +3,189 @@ package org.mindera.mindswap.monstersinterfaces;
 import org.mindera.mindswap.monstersinterfaces.fairies.Fairy;
 import org.mindera.mindswap.monstersinterfaces.strikeable.Witch;
 
-import static org.mindera.mindswap.monstersinterfaces.strikeable.monsters.MonsterTypeEnum.WEREWOLF;
-
 public class Game {
 
-    private Player p1;
-    private Player p2;
+    private final double miniBossChange = 0.2;
+    private Player[] players;
+    private int currentPlayer;
     private boolean gameEnded;
     private Supernatural miniBoss;
 
     public Game(Player p1, Player p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+        this.players = new Player[2];
+        this.players[0] = p1;
+        this.players[1] = p2;
+        this.currentPlayer = 0;
     }
+
+    public void play() {
+
+        while (!gameEnded) {
+            this.gameTurn();
+            this.playersTurn();
+        }
+    }
+
+    private void gameTurn() {
+        if (this.miniBoss == null) {
+            double miniBossChance = Math.random();
+            if (miniBossChance <= this.miniBossChange) {
+                this.currentPlayer = 2;
+                System.out.println("\n>>> A new mini boss appears! <<<\n");
+                this.miniBossBattle();
+                System.out.println("\n>>> Mini Boss Battle Over! <<<\n");
+                this.currentPlayer = 0;
+            }
+        }
+    }
+
+    private void playersTurn() {
+        Player p1 = this.players[0];
+        Player p2 = this.players[1];
+
+        if (this.currentPlayer == 0) {
+            int p1Pick = p1.getRandomMonsterIndexFromHand();
+            if (!this.canCurrentPlayerMonsterPlay(p1) && p1Pick == -1) {
+                this.gameWon(p2);
+                return;
+            }
+
+            System.out.println("\n" + p1.getName() + "'s turn");
+            if (!this.canCurrentPlayerMonsterPlay(p2)) {
+                this.gameWon(p1);
+                return;
+            }
+
+            p1.getMonsterList()[p1.getCurrentMonsterIndex()].attack(
+                    p2.getMonsterList()[p2.getCurrentMonsterIndex()]);
+
+            this.currentPlayer = 1;
+        } else {
+            int p2Pick = p2.getRandomMonsterIndexFromHand();
+            if (!this.canCurrentPlayerMonsterPlay(p2) && p2Pick == -1) {
+                this.gameWon(p1);
+                return;
+            }
+
+            System.out.println("\n" + p2.getName() + "'s turn");
+            if (!this.canCurrentPlayerMonsterPlay(p1)) {
+                this.gameWon(p2);
+                return;
+            }
+
+            p2.getMonsterList()[p2.getCurrentMonsterIndex()].attack(
+                    p1.getMonsterList()[p1.getCurrentMonsterIndex()]);
+            this.currentPlayer = 0;
+        }
+    }
+
+    private boolean canCurrentPlayerMonsterPlay(Player player) {
+        if (player.isCurrentMonsterDead()) {
+            int playerPick = player.getRandomMonsterIndexFromHand();
+            if (playerPick == -1) {
+                System.out.println(player.getName() + " is out of cards!");
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    private boolean playersAttackMiniBoss() {
+        Player p1 = this.players[0];
+        Player p2 = this.players[1];
+
+        if (this.miniBoss instanceof Witch) {
+
+            if (!this.canCurrentPlayerMonsterPlay(p1)) {
+                this.gameWon(p2);
+                return true;
+            }
+
+            p1.getMonsterList()[p1.getCurrentMonsterIndex()].attack((Witch) miniBoss);
+            if (((Witch) (this).miniBoss).isDead()) {
+                return true;
+            }
+
+            if (!this.canCurrentPlayerMonsterPlay(p2)) {
+                this.gameWon(p1);
+                return true;
+            }
+
+            p2.getMonsterList()[p2.getCurrentMonsterIndex()].attack((Witch) miniBoss);
+            return ((Witch) (this).miniBoss).isDead();
+        }
+
+        return false;
+    }
+
+    private void miniBossBattle() {
+        Player p1 = this.players[0];
+        Player p2 = this.players[1];
+
+        int fairyAP = 10;
+        int witchHP = 20;
+        int witchAP = 10;
+
+        double miniBossChance = Math.random();
+        if (miniBossChance <= 0.5) {
+            this.miniBoss = new Fairy(fairyAP, "Tinkerbell");
+        } else {
+            this.miniBoss = new Witch(witchHP, witchAP, "The Witch From the Wilds");
+        }
+
+        if (this.miniBoss instanceof Fairy) {
+            ((Fairy) (this).miniBoss).attack(
+                    p1.getMonsterList()[p1.getCurrentMonsterIndex()],
+                    p2.getMonsterList()[p2.getCurrentMonsterIndex()]);
+            System.out.println("The fairy whooshes away cackling like a mad hyena!");
+            this.miniBoss = null;
+            return;
+        }
+
+        while (true) {
+            if (this.miniBoss != null) {
+                if (this.miniBoss instanceof Witch) {
+
+                    if (!this.canCurrentPlayerMonsterPlay(p1)) {
+                        this.gameWon(p2);
+                        break;
+                    }
+
+                    if (!this.canCurrentPlayerMonsterPlay(p2)) {
+                        this.gameWon(p1);
+                        break;
+                    }
+
+                    ((Witch) miniBoss).attack(
+                            p1.getMonsterList()[p1.getCurrentMonsterIndex()],
+                            p2.getMonsterList()[p2.getCurrentMonsterIndex()]);
+
+                    // returns true if miniboss is dead;
+                    if (this.playersAttackMiniBoss()) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void gameWon(Player player) {
+        this.gameEnded = true;
+        System.out.printf("\n>>>> %s wins! <<<<\n", player.getName());
+        this.printGameStatus();
+    }
+
+    private void printGameStatus() {
+        System.out.println("\n>>> Game status <<<");
+        System.out.println(this.players[0].getName() + " List:");
+        this.players[0].printMonsters();
+        System.out.println(this.players[1].getName() + " List:");
+        this.players[1].printMonsters();
+        System.out.println("\n>>> --- <<<\n");
+    }
+
+    /*
 
     private void makeMiniBoss() {
 
@@ -221,4 +391,6 @@ public class Game {
         this.p2.printMonsters();
         System.out.println("\n>>> --- <<<\n");
     }
+
+     */
 }

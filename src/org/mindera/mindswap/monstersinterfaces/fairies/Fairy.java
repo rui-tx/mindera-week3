@@ -12,12 +12,20 @@ public class Fairy extends Supernatural {
         super(attackPower, name);
     }
 
+    @Override
+    public String toString() {
+        if (this.getName() != null) {
+            return this.getName();
+        }
+        return "Fairy";
+    }
+
     public void attack(StrikeableInterface p1Monster, StrikeableInterface p2Monster) {
 
         System.out.println("A Wild Fairy appears and attacks both players!");
         super.attack(p1Monster);
         super.attack(p2Monster);
-        
+
 
     }
 }

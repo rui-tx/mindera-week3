@@ -113,6 +113,10 @@ public class Player {
         return this.currentMonsterIndex;
     }
 
+    public boolean isCurrentMonsterDead() {
+        return this.monsterList[this.currentMonsterIndex].isDead();
+    }
+
     public int checkHowManyMonstersAreAlive() {
         int monstersAlive = 0;
         for (int i = 0; i < this.monsterList.length; i++) {

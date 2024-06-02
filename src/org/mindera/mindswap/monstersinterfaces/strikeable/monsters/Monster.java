@@ -20,7 +20,18 @@ public abstract class Monster extends Supernatural implements StrikeableInterfac
 
     @Override
     public String toString() {
-        return "This is a Monster";
+        if (this.getName() != null) {
+            return this.getName();
+        }
+        return "Monster";
+    }
+
+    @Override
+    public void attack(StrikeableInterface other) {
+        System.out.printf("%s (HP: %s AP: %s) attacks %s (HP: %s AP: %s)\n",
+                this, this.getHealth(), this.getAttackPower(),
+                other, other.getHealth(), other.getAttackPower());
+        super.attack(other);
     }
 
     public int getHealth() {
@@ -30,6 +41,7 @@ public abstract class Monster extends Supernatural implements StrikeableInterfac
     public void setHealth(int health) {
         this.health = health;
         if (this.getHealth() < 0) {
+            System.out.println(this + " is dead!");
             this.health = 0;
         }
     }

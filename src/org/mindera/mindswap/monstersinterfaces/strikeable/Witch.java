@@ -26,10 +26,18 @@ public class Witch extends Supernatural implements StrikeableInterface {
 
     public void attack(StrikeableInterface p1Monster, StrikeableInterface p2Monster) {
 
-        System.out.println(this.getName() + " attacks both players!");
+        System.out.println(this.getName() + " starts to attack both players!");
         super.attack(p1Monster);
         super.attack(p2Monster);
 
+    }
+
+    @Override
+    public String toString() {
+        if (this.getName() != null) {
+            return this.getName();
+        }
+        return "Witch";
     }
 
     @Override
