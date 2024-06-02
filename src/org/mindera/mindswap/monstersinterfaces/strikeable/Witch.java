@@ -43,8 +43,8 @@ public class Witch extends Supernatural implements StrikeableInterface {
     @Override
     public void decreaseHealth(int decreaseAmount) {
         //System.out.println("Witch decrease damage received to half!");
-        //int health = this.getHealth() - decreaseAmount;
-        this.setHealth(decreaseAmount / 2);
+        int health = this.getHealth() - (decreaseAmount / 2); // round low -> 3 / 2 = 1;
+        this.setHealth(health);
 
         if (this.getHealth() <= 0) {
             System.out.println("After a massive blow to the back of the head, the Witch flies away!");

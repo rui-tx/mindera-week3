@@ -45,6 +45,7 @@ public class Game {
 
         if (this.currentPlayer == 0) {
             int p1Pick = p1.getRandomMonsterIndexFromHand();
+            // maybe redundant
             if (!this.canCurrentPlayerMonsterPlay(p1) && p1Pick == -1) {
                 this.gameWon(p2);
                 return;
