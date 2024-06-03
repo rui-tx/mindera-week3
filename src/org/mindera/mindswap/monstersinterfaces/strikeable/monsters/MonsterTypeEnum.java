@@ -3,9 +3,9 @@ package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 import org.mindera.mindswap.rockpaperscissors.Random;
 
 public enum MonsterTypeEnum {
-    WEREWOLF(25, 3),
-    VAMPIRE(10, 10),
-    MUMMY(20, 8);
+    WEREWOLF(25, 12),
+    VAMPIRE(20, 10),
+    MUMMY(30, 12);
 
     private final int health;
     private final int attackPower;

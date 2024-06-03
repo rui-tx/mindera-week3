@@ -1,11 +1,14 @@
 package org.mindera.mindswap.monstersinterfaces;
 
 import org.mindera.mindswap.monstersinterfaces.fairies.Fairy;
+import org.mindera.mindswap.monstersinterfaces.fairies.FairySpecialEnum;
 import org.mindera.mindswap.monstersinterfaces.strikeable.Witch;
+import org.mindera.mindswap.monstersinterfaces.strikeable.WitchSpecialEnum;
+import org.mindera.mindswap.rockpaperscissors.Random;
 
 public class Game {
 
-    private final double miniBossChange = 0.2;
+    private final double miniBossChange = 0.1;
     private Player[] players;
     private int currentPlayer;
     private boolean gameEnded;
@@ -24,6 +27,7 @@ public class Game {
             this.gameTurn();
             this.playersTurn();
         }
+        this.printGameStatus();
     }
 
     private void gameTurn() {
@@ -32,7 +36,11 @@ public class Game {
             if (miniBossChance <= this.miniBossChange) {
                 this.currentPlayer = 2;
                 System.out.println("\n>>> A new mini boss appears! <<<\n");
-                this.miniBossBattle();
+                // TODO: fix the bug where sometimes it print 2 times the winner
+                boolean check = this.miniBossBattle();
+                if (!check) {
+                    return;
+                }
                 System.out.println("\n>>> Mini Boss Battle Over! <<<\n");
                 this.currentPlayer = 0;
             }
@@ -120,28 +128,19 @@ public class Game {
         return false;
     }
 
-    private void miniBossBattle() {
+    private boolean miniBossBattle() {
         Player p1 = this.players[0];
         Player p2 = this.players[1];
 
-        int fairyAP = 10;
-        int witchHP = 20;
-        int witchAP = 10;
-
-        double miniBossChance = Math.random();
-        if (miniBossChance <= 0.5) {
-            this.miniBoss = new Fairy(fairyAP, "Tinkerbell");
-        } else {
-            this.miniBoss = new Witch(witchHP, witchAP, "The Witch From the Wilds");
-        }
+        this.setMiniBoss();
 
         if (this.miniBoss instanceof Fairy) {
             ((Fairy) (this).miniBoss).attack(
                     p1.getMonsterList()[p1.getCurrentMonsterIndex()],
                     p2.getMonsterList()[p2.getCurrentMonsterIndex()]);
-            System.out.println("The fairy whooshes away cackling like a mad hyena!");
+            System.out.println(this.miniBoss.getName() + " whooshes away cackling like a mad hyena!");
             this.miniBoss = null;
-            return;
+            return true;
         }
 
         while (true) {
@@ -150,12 +149,12 @@ public class Game {
 
                     if (!this.canCurrentPlayerMonsterPlay(p1)) {
                         this.gameWon(p2);
-                        break;
+                        return false;
                     }
 
                     if (!this.canCurrentPlayerMonsterPlay(p2)) {
                         this.gameWon(p1);
-                        break;
+                        return false;
                     }
 
                     ((Witch) miniBoss).attack(
@@ -164,17 +163,29 @@ public class Game {
 
                     // returns true if miniboss is dead;
                     if (this.playersAttackMiniBoss()) {
-                        break;
+                        return true;
                     }
                 }
             }
         }
     }
 
+    private void setMiniBoss() {
+        double miniBossChance = Math.random();
+        if (miniBossChance <= 0.5) {
+            int randomFairy = Random.getRandomNumber(0, FairySpecialEnum.values().length - 1);
+            FairySpecialEnum fairy = FairySpecialEnum.values()[randomFairy];
+            this.miniBoss = new Fairy(fairy.getAttackPower(), fairy.getName());
+        } else {
+            int randomWitch = Random.getRandomNumber(0, WitchSpecialEnum.values().length - 1);
+            WitchSpecialEnum witch = WitchSpecialEnum.values()[randomWitch];
+            this.miniBoss = new Witch(witch.getHealth(), witch.getAttackPower(), witch.getName());
+        }
+    }
+
     private void gameWon(Player player) {
         this.gameEnded = true;
         System.out.printf("\n>>>> %s wins! <<<<\n", player.getName());
-        this.printGameStatus();
     }
 
     private void printGameStatus() {

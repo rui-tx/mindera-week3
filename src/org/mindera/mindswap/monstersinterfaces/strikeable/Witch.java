@@ -47,7 +47,7 @@ public class Witch extends Supernatural implements StrikeableInterface {
         this.setHealth(health);
 
         if (this.getHealth() <= 0) {
-            System.out.println("After a massive blow to the back of the head, the Witch flies away!");
+            System.out.println("After a massive blow to the back of the head, " + this.getName() + " flies away!");
             this.setHealth(0);
         }
     }
