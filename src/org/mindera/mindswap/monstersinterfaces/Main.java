@@ -11,8 +11,8 @@ public class Main {
 
         MonsterTypeEnum[] monsterList = {MUMMY, WEREWOLF, VAMPIRE, MUMMY, WEREWOLF, VAMPIRE};
         //Player p1 = new Player("Rui", p1MonsterList);
-        Player p1 = new Player("Rui", numberOfMonsters);
-        Player p2 = new Player("Sofia", numberOfMonsters);
+        Player p1 = new Player("Rui", monsterList);
+        Player p2 = new Player("Sofia", monsterList);
 
         Game game = new Game(p1, p2);
         game.play();
