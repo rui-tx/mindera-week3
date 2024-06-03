@@ -4,7 +4,7 @@ package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 public enum VampireSpecialEnum {
     EDWARD(20, 20, "Edward of the Thousand Suns"),
     DRACULA(25, 20, "Lord Dracula, Drinker of Blood and Souls"),
-    MOSKI(5, 15, "Moski, the friendly Mosquito");
+    MOSKI(5, 25, "Moski, the friendly Mosquito");
 
     private final int health;
     private final int attackPower;
