@@ -1,6 +1,5 @@
 package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 
-// names from https://perchance.org/boss-titles, https://www.fantasynamegenerators.com/werewolf-names.php
 public enum WerewolfSpecialEnum {
     JAKE(50, 10, "Jake 'No Shirt' Muscles"),
     ROOFIE(40, 30, "Roofie Devour of Hearts"),

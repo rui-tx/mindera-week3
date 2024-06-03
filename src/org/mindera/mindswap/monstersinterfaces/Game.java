@@ -8,7 +8,7 @@ import org.mindera.mindswap.rockpaperscissors.Random;
 
 public class Game {
 
-    private final double miniBossChange = 0.1;
+    private final double miniBossChance = 0.1;
     private Player[] players;
     private int currentPlayer;
     private boolean gameEnded;
@@ -24,27 +24,31 @@ public class Game {
     public void play() {
 
         while (!gameEnded) {
-            this.gameTurn();
-            this.playersTurn();
+            if (!this.gameTurn()) {
+                this.playersTurn();
+            }
         }
         this.printGameStatus();
     }
 
-    private void gameTurn() {
+    private boolean gameTurn() {
         if (this.miniBoss == null) {
             double miniBossChance = Math.random();
-            if (miniBossChance <= this.miniBossChange) {
+            if (miniBossChance <= this.miniBossChance) {
                 this.currentPlayer = 2;
+
                 System.out.println("\n>>> A new mini boss appears! <<<\n");
-                // TODO: fix the bug where sometimes it print 2 times the winner
+                // TODO: trying to fix the bug where sometimes it print 2 times the winner
                 boolean check = this.miniBossBattle();
                 if (!check) {
-                    return;
+                    return true;
                 }
                 System.out.println("\n>>> Mini Boss Battle Over! <<<\n");
                 this.currentPlayer = 0;
             }
+            return false;
         }
+        return false;
     }
 
     private void playersTurn() {
@@ -54,7 +58,7 @@ public class Game {
         if (this.currentPlayer == 0) {
             int p1Pick = p1.getRandomMonsterIndexFromHand();
             // maybe redundant
-            if (!this.canCurrentPlayerMonsterPlay(p1) && p1Pick == -1) {
+            if (p1Pick == -1 && !this.canCurrentPlayerMonsterPlay(p1)) {
                 this.gameWon(p2);
                 return;
             }
@@ -104,28 +108,28 @@ public class Game {
         Player p1 = this.players[0];
         Player p2 = this.players[1];
 
-        if (this.miniBoss instanceof Witch) {
-
-            if (!this.canCurrentPlayerMonsterPlay(p1)) {
-                this.gameWon(p2);
-                return true;
-            }
-
-            p1.getMonsterList()[p1.getCurrentMonsterIndex()].attack((Witch) miniBoss);
-            if (((Witch) (this).miniBoss).isDead()) {
-                return true;
-            }
-
-            if (!this.canCurrentPlayerMonsterPlay(p2)) {
-                this.gameWon(p1);
-                return true;
-            }
-
-            p2.getMonsterList()[p2.getCurrentMonsterIndex()].attack((Witch) miniBoss);
-            return ((Witch) (this).miniBoss).isDead();
+        if (!(this.miniBoss instanceof Witch)) {
+            return false;
         }
 
-        return false;
+        if (!this.canCurrentPlayerMonsterPlay(p1)) {
+            this.gameWon(p2);
+            return true;
+        }
+
+        p1.getMonsterList()[p1.getCurrentMonsterIndex()].attack((Witch) miniBoss);
+        if (((Witch) (this).miniBoss).isDead()) {
+            return true;
+        }
+
+        if (!this.canCurrentPlayerMonsterPlay(p2)) {
+            this.gameWon(p1);
+            return true;
+        }
+
+        p2.getMonsterList()[p2.getCurrentMonsterIndex()].attack((Witch) miniBoss);
+        return ((Witch) (this).miniBoss).isDead();
+
     }
 
     private boolean miniBossBattle() {
@@ -163,6 +167,7 @@ public class Game {
 
                     // returns true if miniboss is dead;
                     if (this.playersAttackMiniBoss()) {
+                        this.miniBoss = null;
                         return true;
                     }
                 }
@@ -173,6 +178,7 @@ public class Game {
     private void setMiniBoss() {
         double miniBossChance = Math.random();
         if (miniBossChance <= 0.5) {
+
             int randomFairy = Random.getRandomNumber(0, FairySpecialEnum.values().length - 1);
             FairySpecialEnum fairy = FairySpecialEnum.values()[randomFairy];
             this.miniBoss = new Fairy(fairy.getAttackPower(), fairy.getName());

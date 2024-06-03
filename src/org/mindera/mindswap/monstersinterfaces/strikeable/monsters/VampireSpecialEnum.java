@@ -1,6 +1,5 @@
 package org.mindera.mindswap.monstersinterfaces.strikeable.monsters;
 
-// names from https://perchance.org/boss-titles, https://www.fantasynamegenerators.com/werewolf-names.php
 public enum VampireSpecialEnum {
     EDWARD(20, 20, "Edward of the Thousand Suns"),
     DRACULA(25, 20, "Lord Dracula, Drinker of Blood and Souls"),
